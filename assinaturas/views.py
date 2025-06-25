@@ -18,11 +18,11 @@ def nova_assinatura(request):
             messages.error(request, 'Erro ao criar assinatura. Verifique os dados.')
     else:
         form = AssinaturaForm()
-    return render(request, 'nova_assinatura.html', {'form': form})
+    return render(request, 'assinaturas/nova_assinatura.html', {'form': form})
 
 def lista_assinaturas(request):
     assinaturas = Assinatura.objects.all()
-    return render(request, 'lista_assinaturas.html', {'assinaturas': assinaturas})
+    return render(request, 'assinaturas/lista_assinaturas.html', {'assinaturas': assinaturas})
 
 def assinatura_por_clientes(request, id):
     assinatura = get_object_or_404(Assinatura, id=id)
@@ -34,7 +34,10 @@ def assinatura_por_clientes(request, id):
         clientes = clientes.order_by('cpf')
     elif sort == 'email':
         clientes = clientes.order_by('email')
-    return render(request, 'assinatura_por_clientes.html', {'assinatura': assinatura, 'clientes': clientes, 'sort': sort})
+        
+    print(f"Sort: {sort}")
+    print(f"Clientes: {clientes}")
+    return render(request, 'assinaturas/assinatura_por_clientes.html', {'assinatura': assinatura, 'clientes': clientes, 'sort': sort})
 
 @require_POST
 def deletar_assinatura(request, id):
